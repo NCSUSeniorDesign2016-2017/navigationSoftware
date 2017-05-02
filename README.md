@@ -16,7 +16,7 @@ The raspberry pi uses a program called "forever" that watches over the node.js s
 Linux uses a system called "crontab" to schedule automatically executing periodic scrips. Scripts in crontab can be configured to run hourly, daily, or on special events like system reboot. The Aircraft Carry-on Internet system uses the @reboot event to execute the foreverStartup.sh script every time the raspberry pi is powered on, allowing everything necessary to start up and get running without any user interaction required. 
 
 ## Raspbian Installation
-### The first step will be to install the standard Raspbian Linux operating system into a microSD card. For the best documentation on this process, refer to https://www.raspberrypi.org/documentation/installation/installing-images/. This guide assumes you will be using the Raspbian Jesse Lite image.  
+#### The first step will be to install the standard Raspbian Linux operating system into a microSD card. For the best documentation on this process, refer to https://www.raspberrypi.org/documentation/installation/installing-images/. This guide assumes you will be using the Raspbian Jesse Lite image.  
 1. Download the Raspbian Jesse Lite image: https://downloads.raspberrypi.org/raspbian_lite_latest 
 2. 
 
