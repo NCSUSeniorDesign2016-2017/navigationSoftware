@@ -28,6 +28,17 @@ Linux uses a system called "crontab" to schedule automatically executing periodi
 #### Configurating Raspbian
 1. Insert the microSD card into your raspberry pi.
 
+#### Cloning the git repository
+1. Install git.
+```
+sudo apt-get install git
+```
+2. Clone the code repository. It will be placed in a folder called navigationSoftware in the directory you run this command in. It is reccommended to place this in your home directory. 
+```
+cd ~/
+git clone https://github.com/NCSUSeniorDesign2016-2017/navigationSoftware.git
+```
+
 #### Server Installation
 The server requires you to have nodejs and npm installed before hand.
 1. Install npm.
@@ -39,4 +50,41 @@ sudo apt-get install npm
 curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
 sudo apt-get install nodejs
 ```
-
+3. Ensure you have nodejs v4.x.x installed.
+```
+node -v
+```
+4. Install apache2 to actually serve up the web pages.
+```
+sudo apt-get install apache2
+```
+5. Apache places a default index.html file in /var/www/html/ upon installation. Delete this file.
+```
+sudo rm -f /var/www/html/index.html
+```
+6. Copy the contents of the /var/www/html/ folder from this repository to the /var/www/html/ folder on the raspberry pi. 
+```
+sudo cp -R ~/navigationSoftware/var/www/html/ /var/www/html/
+```
+7. Navigate to /var/www/html/
+```
+cd /var/www/html
+```
+8. There are two "programs" inside of this folder. One is the nodejs server located in /var/www/html/, and the other is the webUI client code located in /var/www/html/client. They both have their own separate package.json files, which contain lists of the external libraries that need to be installed. First install the package.json files for the server. When finished there will be a new folder called node_modules inside of /var/www/html/.
+```
+npm install
+```
+9. Then install the package.json files for the client. When finished there will be a new folder called node_modules inside of /var/www/html/client/.
+```
+cd client/
+npm install
+```
+10. Build the client javascript. The client is an angular2 application, which means that the important code is written in typescript files with .ts extensions, and then compiled into javascript files with .js extensions. While it's possible to edit the javascript files directly, it's easier and more correct to edit the typescript files and then re-compile them. 
+```
+npm start
+```
+11. This will cause the angular2 applcation to start running independently. If you had a GUI and a browser, you could visit http://localhost:3000. In this case we just cared about compiling the typescript, so we can go ahead and stop the local server.
+```
+Ctrl+C
+Ctrl+C
+```
