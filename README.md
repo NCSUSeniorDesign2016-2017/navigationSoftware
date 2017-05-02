@@ -28,3 +28,15 @@ Linux uses a system called "crontab" to schedule automatically executing periodi
 #### Configurating Raspbian
 1. Insert the microSD card into your raspberry pi.
 
+#### Server Installation
+The server requires you to have nodejs and npm installed before hand.
+1. Install npm.
+```
+sudo apt-get install npm
+```
+2. Install nodejs v4.8.1. It's important to get this exact version of nodejs, or else some of the required libraries will not work. To do this we need to add node 4.x to the package repository before running the install nodejs command.
+```
+curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
+sudo apt-get install nodejs
+```
+
