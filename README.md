@@ -18,5 +18,13 @@ Linux uses a system called "crontab" to schedule automatically executing periodi
 ## Raspbian Installation
 #### The first step will be to install the standard Raspbian Linux operating system into a microSD card. For the best documentation on this process, refer to https://www.raspberrypi.org/documentation/installation/installing-images/. This guide assumes you will be using the Raspbian Jesse Lite image.  
 1. Download the Raspbian Jesse Lite image: https://downloads.raspberrypi.org/raspbian_lite_latest 
-2. 
+2. Extract the downloaded .zip file anywhere. 
+2. For Windows computers, download and install the Win32DiskImager tool: https://sourceforge.net/projects/win32diskimager/
+3. Insert a clean microSD card into the computer using either an SD-to-microSD or USB-to-microSD adapter. The size of the microSD card is not very important, but it's a good idea to have one that is at least 4GB or larger. The senior design project used a 16GB microSD card. 
+3. Run Win32DiskImager and select the "2017-04-10-raspbian-jessie-lite.img" file that you extracted, and select Device drive letter for the microSD card you inserted.
+4. Click the "Write" button and wait for it to complete.
+5. Close the imager and eject the microSD card.
+
+#### Configurating Raspbian
+1. Insert the microSD card into your raspberry pi.
 
