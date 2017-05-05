@@ -63,7 +63,7 @@ ENTER
 1. Log in to the raspberry pi.
 2. In order for the server to have access to the serial port for GPS signals, we need to loosen the permissions for those interfaces by entering the following command in a terminal.
 ```
-sudo chmod a+rwx /dev/ttyS0 /dev/ttyAMA0
+sudo chmod a+rwx /dev/ttyS0 /dev/ttyACM0
 ```
 
 #### Cloning the git repository
