@@ -50,7 +50,7 @@ sudo apt-get install npm
 curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
 sudo apt-get install nodejs
 ```
-3. Ensure you have nodejs v4.x.x installed.
+3. Ensure you have nodejs v4.x.x installed by checking the version with the -v argument.
 ```
 node -v
 ```
@@ -79,12 +79,51 @@ npm install
 cd client/
 npm install
 ```
-10. Build the client javascript. The client is an angular2 application, which means that the important code is written in typescript files with .ts extensions, and then compiled into javascript files with .js extensions. While it's possible to edit the javascript files directly, it's easier and more correct to edit the typescript files and then re-compile them. 
+10. Build the client javascript. The client is an angular2 application, which means that the important code is written in typescript files with .ts extensions, and then compiled into javascript files with .js extensions. While it's possible to edit the javascript files directly, it's easier and more "correct" to edit the typescript files and then re-compile them. 
 ```
 npm start
 ```
-11. This will cause the angular2 applcation to start running independently. If you had a GUI and a browser, you could visit http://localhost:3000. In this case we just cared about compiling the typescript, so we can go ahead and stop the local server.
+11. This will cause the angular2 applcation to start running independently. If you had a GUI and a browser, you could visit http://localhost:3000. In this case we just cared about compiling the typescript, so we can go ahead and stop the local server by entering Ctrl+C a few times.
 ```
 Ctrl+C
 Ctrl+C
+```
+
+#### Server Start
+1. At this point your client code is ready, and your server is ready, but the server hasn't been started yet. You can start the server manually by entering:
+```
+cd /var/www/html/
+sudo npm start
+```
+2. Manually running the server isn't practical, however, so we want to set up a cronjob to tell the raspberry pi to automatically start the server in the background. First open up the crontab editor by typing:
+```
+sudo crontab -e
+```
+3. At the bottom of the crontab file, paste the following line of text:
+```
+@reboot /usr/bin/sudo -u root -H /var/www/html/foreverStartup.sh
+```
+4. Save the crontab file by typing:
+```
+Ctrl+X
+Y
+ENTER
+```
+5. In order for the code inside of foreverStartup.sh to work, we will need to install the software called forever.
+```
+sudo apt-get install forever
+```
+5. Now when you reboot the raspberry pi, it will automatically execute the foreverStartup.sh script, which runs "sudo npm start" on the server.
+
+#### Wifi Network
+1. In order to be able to visit the site at the same address every time, we will have to set a static IP address on the raspberry pi's wifi interface. First lets open up the network interfaces file:
+```
+sudo nano /etc/network/interfaces
+```
+2. At the bottom of the network interfaces file, paste the following lines:
+```
+allow-hotplug wlan0
+iface wlan0 inet static
+  address 192.168.42.1
+  netmask 255.255.255.0
 ```
