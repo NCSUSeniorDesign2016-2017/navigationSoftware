@@ -1,0 +1,34 @@
+{
+  "name": "navapp",
+  "version": "1.0.0",
+  "description": "A simple webUI for NCSU Senior Design 2016-2017 Project 25: Aircraft Carry-On Internet",
+  "scripts": {
+    "start": "tsc && concurrently \"tsc -w\" \"lite-server\" "
+  },
+  "author": "Michael Schmidt <mischmi2@ncsu.edu>",
+  "dependencies": {
+    "@angular/animations": "^4.0.1",
+    "@angular/common": "^4.0.1",
+    "@angular/compiler": "^4.0.1",
+    "@angular/core": "^4.0.1",
+    "@angular/forms": "^4.0.1",
+    "@angular/http": "^4.0.1",
+    "@angular/platform-browser": "^4.0.1",
+    "@angular/platform-browser-dynamic": "^4.0.1",
+    "@angular/router": "^4.0.1",
+    "angular-in-memory-web-api": "^0.3.1",
+    "angular2-bootstrap-switch": "^0.1.9",
+    "bootstrap": "^3.3.7",
+    "core-js": "^2.4.1",
+    "jquery": "^3.2.1",
+    "rxjs": "^5.0.1",
+    "systemjs": "0.20.12",
+    "zone.js": "^0.8.5"
+  },
+  "devDependencies": {
+    "concurrently": "^3.1.0",
+    "lite-server": "^2.2.2",
+    "typescript": "~2.2.2"
+  },
+  "repository": {}
+}

@@ -1,0 +1,186 @@
+<header>
+	<nav class="navbar navbar-default navbar-static-top">
+		<div class="navbar-header">
+			<div class="navbar-brand">
+				Aircraft Carry-On Internet
+			</div>
+		</div>
+	</nav>
+</header>
+
+<body>
+	<div class="container">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Satellite Location</h3>
+			</div>
+			<div class="panel-body">
+				<div class="align-middle text-center">
+					<div id="indicator"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Control Panel</h3>
+			</div>
+			<div class="panel-body">
+				<div clas="list-group">
+                    <div class="list-group-item">
+                        Signal Strength
+                        <span class="badge">{{ signalStrength }} dBHz</span>
+                    </div>
+                    <div class="list-group-item">
+                        Satellite
+                        <span class="badge">{{ selectedSatellite.name }}</span>
+                    </div>
+					<div class="list-group-item noselect">
+						Automatic Switching
+						<span style="float:right">
+								<switch style="position:relative;top:-7px" [status]="autoSwitch" [onText]="'ON'" [offText]="'OFF'" (click)="autoSet()"></switch>
+						</span>
+					</div>
+					<div class="list-group-item noselect" [ngClass]="{'disabled': autoSwitch}">
+						Left Antenna
+						<span style="float:right;cursor:pointer" (click)="antennaSwitch('left')">
+								<switch style="position:relative;top:-7px;pointer-events:none" [status]="antenna_def.left.active" [onText]="'ON'" [offText]="'OFF'"></switch>
+						</span>
+					</div>
+					<div class="list-group-item noselect" [ngClass]="{'disabled': autoSwitch}">
+						Front Antenna
+						<span style="float:right;cursor:pointer" (click)="antennaSwitch('front')">
+								<switch style="position:relative;top:-7px;pointer-events:none" [status]="antenna_def.front.active" [onText]="'ON'" [offText]="'OFF'"></switch>
+						</span>
+					</div>
+					<div class="list-group-item noselect" [ngClass]="{'disabled': autoSwitch}">
+						Right Antenna
+						<span style="float:right;cursor:pointer" (click)="antennaSwitch('right')">
+								<switch style="position:relative;top:-7px;pointer-events:none" [status]="antenna_def.right.active" [onText]="'ON'" [offText]="'OFF'"></switch>
+						</span>
+					</div>
+
+                    <div class="list-group-item noselect disabled">
+                        Antenna Layout: Front and Left
+                        <span style="float:right;cursor:pointer" (click)="setLayout('fl')">
+                                <switch style="position:relative;top:-7px;pointer-events:none" [status]="layoutSwitch.fl" [onText]="'ON'" [offText]="'OFF'"></switch>
+                        </span>
+                    </div>
+
+                    <div class="list-group-item noselect disabled">
+                        Antena Layout: Front and Right
+                        <span style="float:right;cursor:pointer" (click)="setLayout('rf')">
+                                <switch style="position:relative;top:-7px;pointer-events:none" [status]="layoutSwitch.rf" [onText]="'ON'" [offText]="'OFF'"></switch>
+                        </span>
+                    </div>
+
+                    <div class="list-group-item noselect disabled">
+                        Antenna Layout: Right and Left
+                        <span style="float:right;cursor:pointer" (click)="setLayout('rl')">
+                                <switch style="position:relative;top:-7px;pointer-events:none" [status]="layoutSwitch.rl" [onText]="'ON'" [offText]="'OFF'"></switch>
+                        </span>
+                    </div>
+
+                    <div class="list-group-item noselect disabled">
+                        Antenna Layout: Front, Right, and Left
+                        <span style="float:right;cursor:pointer" (click)="setLayout('frl')">
+                                <switch style="position:relative;top:-7px;pointer-events:none" [status]="layoutSwitch.frl" [onText]="'ON'" [offText]="'OFF'"></switch>
+                        </span>
+                    </div>
+
+					<div class="list-group-item">
+
+						<div *ngIf="!isRebooting">
+								<button type="button" class="btn btn-danger btn-lg btn-block" (click)="sendCommand('reboot')">Reboot Terminal</button>
+						</div>
+
+						<div *ngIf="isRebooting" class="progress progress-striped active" style="margin-bottom:0px;height:46px">
+							<div class="progress-bar progress-bar-danger" role="progressbar" [attr.aria-valuenow]="rebootProgress" aria-valuemin="0" aria-valuemax ="100"
+							style="min-width: 2em;font-size:20px;text-align:center;line-height:46px" [style.width]="(rebootProgress/100)*100 + '%'">
+								Terminal rebooting. Reboot time is {{ rebootTime }} GMT.
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">iperf Bandwitdh Test</h3>
+			</div>
+			<div class="panel-body">
+				<p>Pressing this button will execute an iperf test on the respberry pi. The test takes ~25 seconds to complete and uses ~700kB of data. The output will be saved on the raspberry pi with a timestamped file that looks like "bandwidth_test_2017-04-21-08-45-33.txt". Each time it is pressed, a new test will be run and a new file will be generated. The output will also be displayed in the box below.</p>
+
+				<div class="panel-body">
+					<pre>{{ iperfOutput }}</pre>
+				</div>
+
+				<div [ngClass]="{'disabled': isTesting }">
+						<button type="button" class="btn btn-success btn-lg btn-block" (click)="sendiperf('iperf')">iperf Test</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Automatic Switching</h3>
+			</div>
+			<div class="panel-body">
+				<p>Turning Automatic Switching on will disable manual control of antenna switching, and tell the system to select which antenna in the selected Antenna Layout has the best line-of-sight to the Selected Satellite. This calculation is done using simple geometry only, and does not sense the Signal Strength to make it's decision. For best results, try to maintain aircraft heading such that the front, left, or right side of the plane is aligned with the yellow satellite icon. Please note that switching from one antenna to another necessitates a terminal reboot.</p>
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Manual Switching</h3>
+			</div>
+			<div class="panel-body">
+				<p>When Automatic Switching is turned off, you will be able to manually select which antenna is turned on using the antenna switches on the control panel. One antennna must be turned on at all times in order for the system to function correctly, and only one antenna at a time may be switched on. Please note that switching from one antenna to another necessitates a terminal reboot. </p>
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Antenna Layout</h3>
+			</div>
+			<div class="panel-body">
+				<p>The layout and number of antennas may be configured here. Changing antenna configuration will affect how the Automatic Switching makes its decisions. If you switch to a new layout that does not include the currently active antenna, that antenna will be switched off and one of the antennas in the new layout will be selected. Please note that switching from one antenna to another necessitates a terminal reboot.</p>
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Satellite</h3>
+			</div>
+			<div class="panel-body">
+				<p>This property is automatically selected based on current GPS coordinates. The Inmarsat network has four satellites that provide global coverage. In general there will only ever be one satellite that can be seen, but some coverage overlap occurs in Europe and the Middle East. This property cannot be manually controlled at this time.</p>
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Signal Strength</h3>
+			</div>
+			<div class="panel-body">
+				<p>Signal Strength indicates the strength of the satellite signal picked up by the active antenna. As a rule of thumb, you should have a signal strength of 45 dBHz or more to be able to make a call or data session.</p>
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Server Output</h3>
+			</div>
+			<div class="panel-body">
+				<pre>{{ parsedNMEA | json }}</pre>
+			</div>
+		</div>
+	</div>
+</body>
+
+<footer>
+
+</footer>

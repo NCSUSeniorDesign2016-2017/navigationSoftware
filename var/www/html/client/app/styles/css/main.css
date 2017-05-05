@@ -1,0 +1,41 @@
+.disabled {
+	opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.panel-red {
+    border-color: #d9534f;
+}
+
+.panel-red > .panel-heading {
+    border-color: #d9534f;
+    color: white;
+    background-color: #d9534f;
+}
+
+/*.container--one-half {
+    @media screen and (max-width: 980px) {
+        @include col(1, $gutter: 2);
+        margin-bottom: column-gutter($gutter: 5);
+    }
+
+    @media screen and (min-width: 980px) {
+        @include col(1/2, $gutter: 2);
+    }
+}*/
+
+.bootstrap-switch-label {
+    background: none!important;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
