@@ -6,6 +6,9 @@ This repository hosts the various files used and modified for the Aircraft Carry
 ## Node.js server (/var/www/html/)
 The most important part of the project software is the Node.js server. This server runs constantly while the raspberry pi is powered on, and listens for GPS data from the GPS module. Whenever new GPS data is received, the server runs through calculations to decide which Inmarsat satellite is the most appropriate to select, calculates a vector bearing pointing from it's current location to that satellite, and (if automatic switching is enabled), selects which antenna should have line-of-sight to the satellite and switches to it. The server is also responsible for communicating to the Cobham Explorer 710 BGAN Terminal and sending the critical reboot command that allows the terminal to reboot after the antenna is switched. The most important pieces of code are found in /var/www/html/routes/index.js. 
 
+## index.js (/var/www/html/routes/index.js)
+This is where the majority of the code specific to this system is located. Most of the changes to system functionality can be made inside this file. Since this is such a large file, it's documentaion is better contained in a separate README_INDEX.md file. Please refer to README_INDEX.md for details. 
+
 ## Angular2 Client (/var/www/html/client)
 Whenever you connect to the webUI at 192.168.42.1:8000, you will be served up a special client website. This site will talk to the server and display navigation information, as well as allow the user to control some of the server's functions in real time. The client website is built on an angular2 template.
 
@@ -30,6 +33,31 @@ Hostapd configuration sets up the raspberry pi as a wireless router, allowing yo
 #### Configurating Raspbian
 1. After you have installed Raspbian according to the raspberry pi's documentation guide, you'll want to gain access to the device to make some changes. There are a number of ways to do this, but the best way is to connect an HDMI monitor and a USB keyboard to the raspberry pi and turn it on. After installing Raspbian, there will be some basic options given to you with a tool called raspi-config. Documentation can be found here: https://www.raspberrypi.org/documentation/configuration/raspi-config.md. For this device we want to ensure that SSH and serial ports are enabled. You can enable SSH and Serial by selecting the Advanced Options menu.
 2. An optional configuration is changing the hostname. For the Aircraft Carry-on Internet system, we changed the hostname to "carryon". The hostname may be changed in the Advanced Options menu as well.
+
+#### New User
+##### Additional Documentation: https://www.raspberrypi.org/documentation/linux/usage/users.md
+1. An optional step is creating a new user. For the Aircraft Carry-on Internet system, we created a user named aircraft. First log in to the raspberry pi. Access a terminal and enter the following command:
+```
+sudo adduser aircraft
+```
+2. You will be prompted for a password. Enter the following password: 
+```
+wolfpack
+```
+3. Open the pi sudoers file:
+```
+sudo nano /etc/sudoers.d/010_pi-nopassd
+```
+4. Add the following line to the file:
+```
+aircraft ALL=(ALL) NOPASSWD: ALL
+```
+5. Save and close the file.
+```
+Ctrl+X
+Y
+ENTER
+```
 
 #### Serial interface permissions
 1. Log in to the raspberry pi.
