@@ -127,3 +127,41 @@ iface wlan0 inet static
   address 192.168.42.1
   netmask 255.255.255.0
 ```
+3. Save the network interfaces file.
+```
+Ctrl+X
+Y
+ENTER
+```
+3. Install hostapd.
+```
+sudo apt-get install hostapd
+```
+4. Open the hostapd.conf file:
+```
+sudo nano /etc/hostapd/hostapd.conf
+```
+5. Enter the following configuration:
+```
+interface=wlan0
+ssid=carryoninternet
+country_code=US
+hw_mode=g
+channel=6
+macaddr_acl=0
+auth_algs=1
+ignore_broadcast_ssid=0
+wpa=2
+wpa_passphrase=wolfpack
+wpa_key_mgmt=WPA-PSK
+wpa_pairwise=CCMP
+wpa_group_rekey=86400
+ieee80211n=1
+wme_enabled=1
+```
+6. Save the hostapd.conf file.
+```
+Ctrl+X
+Y
+ENTER
+```
