@@ -33,4 +33,10 @@ Debugging the client is in some ways more straightforward than debugging the ser
 2. Ensure the server is actually running on the raspberry pi, either automatically or manually. 
 3. Visit the webUI from your browser at http://192.168.42.1:8000. 
 4. When the webUI is loaded, right click anywhere on the browser window and select the "Inspect" option (also Ctrl+Shift+J in Chrome). This opens up the browser's debugging interface. This interface contains a ton of options, but the one we will be interested in 90% of the time is the Console. This will show you any errors or warnings that the running scripts encounter, as well as show any console.log() statements you've entered into the client code. As with the server, console.log() statements are an essential part of figuring out what's going on, and whether the webUI is actually doing what you want it to do. 
-6. While debugging the live site has it's uses, it's often faster and less of a headache to work with a locally running instance of the webUI instead. Instructions for setting up and running a version of the webUI on http://localhost:8000 can be found in README.md
+6. While debugging the live site has it's uses, it's often faster and less of a headache to work with a locally running instance of the webUI instead. Instructions for setting up and running a version of the webUI on http://localhost:8000 can be found in README.md. 
+
+## Typical Approach To Fix Problems
+1. Check the console/terminal outputs to see if there are any red errors. If there are, they will often give you specific information about where in the code the error occurred. 
+2. Go a place in the code where you know or suspect an error is happening, and place apprpriate console.log()'s there to print useful output. An example of output can be checking for a variable that's being used in a logical if(variable === true) statement, or checking to see that a number being calculated is actually something that looks reasonable. 
+3. Apply fixes, re-run the site and check the console/terminal outputs to ensure everything is working or not working. 
+4. Google search code examples and fixes, maybe someone has already run into similar errors or issues and done the work for you. Copypasting bits from stackexchange isn't anything to be ashamed of. 
